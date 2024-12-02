@@ -1,4 +1,4 @@
-package fr.smartshop.product_service;
+package fr.smartshop.productservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
