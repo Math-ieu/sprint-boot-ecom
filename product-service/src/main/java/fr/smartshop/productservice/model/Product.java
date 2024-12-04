@@ -18,6 +18,7 @@ import java.util.List;
 
 public class Product {
 
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -50,4 +51,5 @@ public class Product {
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
 }
