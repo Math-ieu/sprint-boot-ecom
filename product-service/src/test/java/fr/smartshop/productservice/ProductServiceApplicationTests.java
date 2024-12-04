@@ -1,4 +1,4 @@
-package fr.smartshop.product_service;
+package fr.smartshop.productservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
