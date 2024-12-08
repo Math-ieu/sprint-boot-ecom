@@ -101,4 +101,19 @@ public class ProductService {
         return productName.substring(0, Math.min(3, productName.length())).toUpperCase()
                 + "-" + System.currentTimeMillis();
     }
+
+
+    public Page<ProductDTO> getAllProducts(Pageable pageable) {
+        log.info("Fetching all products with pagination");
+        
+        Page<Product> products = productRepository.findAll(pageable);
+
+        if (products.isEmpty()) {
+            log.warn("No products found in database");
+            throw new ResourceNotFoundException("No products found.");
+        }
+
+        // Mapper la liste des entités Product en DTO
+        return products.map(product -> modelMapper.map(product, ProductDTO.class));
+    }
 }
