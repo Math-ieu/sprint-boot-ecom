@@ -9,7 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
@@ -18,14 +18,14 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "Product", description = "Product management APIs")
 @Slf4j
 public class ProductRestController {
-
+ 
     private final ProductService productService;
 
     @Autowired
     public ProductRestController(ProductService productService) {
         this.productService = productService;
     }
-
+  
     /**
      * Crée un nouveau produit
      */

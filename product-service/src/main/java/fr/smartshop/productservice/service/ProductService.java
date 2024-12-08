@@ -15,7 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import java.util.Optional;
 @Service
 @Transactional
 @Slf4j
@@ -115,5 +115,19 @@ public class ProductService {
 
         // Mapper la liste des entités Product en DTO
         return products.map(product -> modelMapper.map(product, ProductDTO.class));
+    }
+
+
+    public ProductDTO getProduct(Long id) {
+        log.info("Fetching product with ID: {}", id);
+
+        Optional <Product> productOptional = productRepository.findById(id);
+        if (productOptional.isEmpty()) {
+            log.error("Product not found with ID: {}", id);
+            throw new ResourceNotFoundException("Product not found");
+        }
+
+        Product product = productOptional.get();
+        return modelMapper.map(product, ProductDTO.class);
     }
 }
