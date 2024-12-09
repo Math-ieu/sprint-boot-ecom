@@ -5,7 +5,6 @@ import fr.smartshop.productservice.service.ProductService;
 import fr.smartshop.productservice.service.CategoryService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
@@ -22,7 +21,6 @@ public class ProductController {
     private final ProductService productService;
     private final CategoryService categoryService;
 
-    @Autowired
     public ProductController(ProductService productService, CategoryService categoryService) {
         this.productService = productService;
         this.categoryService = categoryService;

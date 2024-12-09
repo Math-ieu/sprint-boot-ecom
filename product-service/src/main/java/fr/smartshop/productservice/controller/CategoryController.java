@@ -15,7 +15,7 @@ import jakarta.validation.Valid;
 @Controller
 @RequestMapping("/categories")
 @Slf4j
-public class CategoryController {
+public class CategoryController { 
 
     @Autowired
     private CategoryService categoryService;
