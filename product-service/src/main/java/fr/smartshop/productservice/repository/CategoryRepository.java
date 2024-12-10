@@ -28,7 +28,7 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
      */
     @Query("SELECT c FROM Category c WHERE LOWER(c.name) LIKE LOWER(CONCAT('%', :keyword, '%'))")
     List<Category> searchByName(@Param("keyword") String keyword);
-
+    
     /**
      * Obtenir toutes les catégories avec le nombre de produits associé.
      * 
