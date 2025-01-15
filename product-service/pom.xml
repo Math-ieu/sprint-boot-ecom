@@ -8,7 +8,7 @@
 		<version>3.3.6</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>fr.smartshop</groupId>
+	<groupId>fr.smartshop</groupId> 
 	<artifactId>product-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>product-service</name>
@@ -146,6 +146,8 @@
 					</excludes>
 				</configuration>
 			</plugin>
-		</plugins>
+
+	
+	</plugins>
 	</build>
 </project>
