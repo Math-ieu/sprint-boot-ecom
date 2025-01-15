@@ -8,7 +8,7 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-    @Override
+    @Override 
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         // Ajouter un handler pour le répertoire uploads
         registry.addResourceHandler("/uploads/**") // URL accessible via le navigateur
