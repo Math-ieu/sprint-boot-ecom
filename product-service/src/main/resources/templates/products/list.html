@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+layout:decorate="~{layout/main}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <!-- En-tête avec filtres -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <form class="d-flex" th:action="@{/products/search/{keyword}}" method="get">
+                            <input type="text" class="form-control me-2" name="keyword" placeholder="Search products..."
+                            th:value="${param.keyword}">
+                            <button class="btn btn-outline-primary" type="submit">Search</button>
+                        </form>
+                    </div>
+                    <div class="col-md-6 text-end">
+                        <a th:href="@{/products/new}" class="btn btn-primary">
+                            <i class="fas fa-plus"></i> Add New Product
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Liste des produits -->
+        <div class="row">          
+            <div class="col-md-4 mb-4" th:each="product : ${products}">
+                <div class="card h-100">
+                    <!-- Image du produit -->
+                    <div class="position-relative">
+                        <img th:if="${not #lists.isEmpty(product.imageName)}" 
+                        th:src="@{/uploads/{image_name}(image_name=${product.imageName})}" 
+                        class="card-img-top product-image" 
+                        alt="Product Image">
+           
+                   <!-- Si aucune image, afficher un placeholder -->
+                   <img th:unless="${not #lists.isEmpty(product.imageName)}" 
+                        th:src="@{/images/placeholder.png}" 
+                        class="card-img-top product-image" 
+                        alt="Product Placeholder">
+                        <span class="badge bg-primary position-absolute top-0 end-0 m-2" ></span>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${product.name}"></h5>
+                        <p class="card-text text-truncate" th:text="${product.description}"></p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="h5 mb-0" th:text="${'$' + product.price}"></span>
+                            <span class="badge" th:classappend="${product.stockQuantity > 0 ?'bg-success' : 'bg-danger'}"
+                                th:text="${product.stockQuantity > 0 ? 'In
+                                Stock' : 'Out of Stock'}">
+                            </span>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="btn-group w-100">
+                         <a th:href="@{/products/{id}/edit(id=${product.id})}"class="btn btn-outline-primary">
+                                <i class="fas fa-edit"></i> Edit
+                            </a>
+                            <a class="btn btn-outline-danger" th:href="@{/products/delete/{id}(id=${product.id})}" onclick="confirmDeleteProduct(event, this)">
+                                <i class="fas fa-trash"></i> Delete
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Pagination -->
+        <nav th:if="${products.totalPages > 1}" aria-label="Product pagination" class="mt-4">
+            <ul class="pagination justify-content-center">
+                <li class="page-item" th:classappend="${products.first ?'disabled' : ''}">
+                    <a class="page-link" th:href="@{/products(page=${products.number - 1})}">Previous</a>
+                </li>
+                <li class="page-item" th:each="pageNumber : ${#numbers.sequence(0,products.totalPages - 1)}"
+                    th:classappend="${pageNumber == products.number ? 'active': ''}">
+                    <a class="page-link" th:href="@{/products(page=${pageNumber})}" th:text="${pageNumber + 1}"></a>
+                </li>
+                <li class="page-item" th:classappend="${products.last ?'disabled' : ''}">
+                    <a class="page-link" th:href="@{/products(page=${products.number + 1})}">Next</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</body>
+</html>

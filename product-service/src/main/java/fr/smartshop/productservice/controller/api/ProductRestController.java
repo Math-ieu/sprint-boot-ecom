@@ -29,7 +29,7 @@ public class ProductRestController {
     /**
      * Crée un nouveau produit
      */
-    @PostMapping
+    /* @PostMapping
     @Operation(summary = "Create new product")
     public ResponseEntity<ProductDTO> createProduct(@Valid @RequestBody ProductDTO productDTO) {
         log.info("Received request to create a new product with name: {}", productDTO.getName());
@@ -40,7 +40,7 @@ public class ProductRestController {
             log.error("Error creating product", e);
             return ResponseEntity.status(500).build();
         }
-    }
+    }  */
 
     /**
      * Récupère un produit par son ID
