@@ -11,20 +11,63 @@ import fr.smartshop.productservice.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
+
 @Service
 @Transactional
 @Slf4j
 @RequiredArgsConstructor
 public class ProductService {
 
+    @Value("${file.upload-dir}")
+    private String uploadDir;
+
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
+    // private final ProductImageRepository productImageRepository;
     private final ModelMapper modelMapper;
+
+
+    private String saveImage(MultipartFile imageFile,ProductDTO productDTO) throws IOException {
+        if (imageFile.isEmpty()) {
+            throw new IOException("Le fichier image est vide.");
+        }
+
+        // Obtenir l'extension d'origine
+        String originalFileName = imageFile.getOriginalFilename();
+        String fileExtension = "";
+
+        if (originalFileName != null && originalFileName.contains(".")) {
+            fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
+        }
+
+        // Nom personnalisé avec l'extension d'origine
+        String fileName = "image_"+ generateSku(productDTO.getName()) + fileExtension;
+        Path filePath = Paths.get(uploadDir, fileName);
+
+        Files.createDirectories(filePath.getParent()); // Créer le répertoire si nécessaire
+        Files.write(filePath, imageFile.getBytes()); // Sauvegarder le fichier
+
+        return fileName;
+    }
+
 
     /**
      * Crée un nouveau produit.
@@ -32,22 +75,33 @@ public class ProductService {
      * @param productDTO Les données du produit à créer
      * @return Le produit créé sous forme de DTO
      */
-    public ProductDTO createProduct(ProductDTO productDTO) {
+    public ProductDTO createProduct(ProductDTO productDTO) throws IOException {
+
         log.info("Creating new product: {}", productDTO.getName());
 
         // Valider la catégorie
         Category category = categoryRepository.findById(productDTO.getCategoryId())
                 .orElseThrow(() -> new ResourceNotFoundException("Category not found"));
 
+        String imageName=null;
+
+        if (productDTO.getImageFile() != null && !productDTO.getImageFile().isEmpty()) {
+            imageName = saveImage(productDTO.getImageFile(),productDTO);
+        }
         // Mapper le DTO vers l'entité
         Product product = modelMapper.map(productDTO, Product.class);
         product.setCategory(category);
         product.setSku(generateSku(productDTO.getName()));
-
-        // Sauvegarder et retourner le produit
+        product.setCreatedAt(LocalDateTime.now());
+        product.setImageName(imageName);
+       
+        // Sauvegarder le produit dans la bd
         Product savedProduct = productRepository.save(product);
+ 
         return modelMapper.map(savedProduct, ProductDTO.class);
+       
     }
+
 
     /**
      * Met à jour un produit existant.
@@ -61,6 +115,7 @@ public class ProductService {
                 .map(product -> {
                     // Mettre à jour les champs
                     modelMapper.map(productDTO, product);
+                    product.setUpdatedAt(LocalDateTime.now());
                     Product updated = productRepository.save(product);
                     return modelMapper.map(updated, ProductDTO.class);
                 })
@@ -70,14 +125,12 @@ public class ProductService {
     /**
      * Supprime un produit en le désactivant.
      * 
-     * @param id L'ID du produit à supprimer
      */
     public void deleteProduct(Long id) {
-        productRepository.findById(id).ifPresent(product -> {
-            product.setStatus(ProductStatus.INACTIVE);
-            productRepository.save(product);
-        });
+        log.info("Deleting product with ID: {}", id);
+        productRepository.deleteById(id);
     }
+
 
     /**
      * Recherche des produits par mot-clé avec pagination.
@@ -108,14 +161,15 @@ public class ProductService {
         
         Page<Product> products = productRepository.findAll(pageable);
 
-        if (products.isEmpty()) {
+       /*  if (products.isEmpty()) {
             log.warn("No products found in database");
             throw new ResourceNotFoundException("No products found.");
-        }
+        } */
 
         // Mapper la liste des entités Product en DTO
         return products.map(product -> modelMapper.map(product, ProductDTO.class));
     }
+
 
 
     public ProductDTO getProduct(Long id) {
@@ -130,4 +184,12 @@ public class ProductService {
         Product product = productOptional.get();
         return modelMapper.map(product, ProductDTO.class);
     }
+
+
+    
+    
+    
+
+   
+    
 }

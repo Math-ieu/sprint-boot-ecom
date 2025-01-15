@@ -15,9 +15,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class Product {
-
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,8 +38,12 @@ public class Product {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ProductImage> images = new ArrayList<>();
+    /** relations d'associations */
+   /*  @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "image_id", referencedColumnName = "id",nullable = true)
+    private ProductImage image; */
+
+    private String imageName;
 
     @Enumerated(EnumType.STRING)
     private ProductStatus status = ProductStatus.ACTIVE;

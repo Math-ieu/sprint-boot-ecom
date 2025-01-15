@@ -1,6 +1,7 @@
 package fr.smartshop.productservice.service;
 
 import fr.smartshop.productservice.dto.CategoryDTO;
+import fr.smartshop.productservice.dto.ProductDTO;
 import fr.smartshop.productservice.exception.ResourceNotFoundException;
 import fr.smartshop.productservice.model.Category;
 import fr.smartshop.productservice.repository.CategoryRepository;
@@ -53,12 +54,7 @@ public class CategoryService {
      */
     public void deleteCategory(Long id) {
         log.info("Deleting category with ID: {}", id);
-        categoryRepository.findById(id)
-                .ifPresentOrElse(
-                        categoryRepository::delete,
-                        () -> {
-                            throw new ResourceNotFoundException("Category not found with ID: " + id);
-                        });
+        categoryRepository.deleteById(id);
     }
 
     /**
@@ -89,5 +85,23 @@ public class CategoryService {
                 .stream()
                 .map(category -> modelMapper.map(category, CategoryDTO.class))
                 .collect(Collectors.toList());
+
     }
+
+
+     /**
+     * Recherche des produits par mot-clé avec pagination.
+     * 
+     * @param keyword  Le mot-clé à rechercher
+     * @return Une page de produits correspondant au mot-clé
+     */
+    public List<CategoryDTO> searchCategories(String keyword) {
+        return categoryRepository.searchByName(keyword)
+                .stream()
+                .map(category -> modelMapper.map(category, CategoryDTO.class))
+                .collect(Collectors.toList());
+
+    }
+
+
 }

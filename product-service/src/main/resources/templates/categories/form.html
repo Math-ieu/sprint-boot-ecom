@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+layout:decorate="~{layout/main}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 th:text="${category.id == null ? 'Create New Category' : 'Edit Category'}"></h3>
+                    </div>
+                    <div class="card-body">
+                        <form th:action="@{/categories}" method="post" th:object="${category}" enctype="multipart/form-data">
+                            <!-- champ caché -->
+                            <input type="hidden" th:field="*{id}">
+
+                            <!-- Nom du produit -->
+                            <div class="mb-3">
+                                <label class="form-label">Category Name</label>
+                                <input type="text" class="form-control" th:field="*{name}" th:classappend="${#fields.hasErrors('name')} ? 
+                                'is-invalid'">
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}"th:errors="*{name}"></div>
+                            </div>
+
+                            
+                            <div id="image-previews" class="row mt-3 g-2"></div>
+                        
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save me-1"></i> Save Product 
+                                </button>
+                                <a th:href="@{/categories}" class="btn btn-danger"><i class="fas fa-times me-1"></i>Cancel</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

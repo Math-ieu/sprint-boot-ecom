@@ -1,19 +1,20 @@
 package fr.smartshop.productservice.dto;
 
 import lombok.Data;
-
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
-import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import  fr.smartshop.productservice.model.*;
 
 @Data
 public class ProductDTO {
+   
     private Long id;
 
     @NotBlank(message = "Product name is required")
@@ -30,7 +31,11 @@ public class ProductDTO {
 
     private String sku;
     private Long categoryId;
-    private List<String> imageUrls;
+
+    private MultipartFile imageFile; // Pour l'upload de l'image
+
+    private String imageName; // url de l'image après traitement
     private ProductStatus status;
+
 
 }

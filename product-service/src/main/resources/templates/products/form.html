@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+layout:decorate="~{layout/main}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <div layout:fragment="content">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 th:text="${product.id == null ? 'Create New Product' : 'Edit Product'}"></h3>
+                    </div>
+                    <div class="card-body">
+                        <form th:action="@{/products}" method="post" th:object="${product}" enctype="multipart/form-data">
+                            <!-- champ caché -->
+                            <input type="hidden" th:field="*{id}">
+
+                            <!-- Nom du produit -->
+                            <div class="mb-3">
+                                <label class="form-label">Product Name</label>
+                                <input type="text" class="form-control" th:field="*{name}" th:classappend="${#fields.hasErrors('name')} ? 
+                                'is-invalid'">
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}"th:errors="*{name}"></div>
+                            </div>
+
+                            <!-- Description -->
+                            <div class="mb-3">
+                                <label class="form-label">Description</label>
+                                <textarea class="form-control" th:field="*{description}" rows="3"
+                                th:classappend="${#fields.hasErrors('description')} ? 'is-invalid'">
+                                </textarea>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('description')}"
+                                th:errors="*{description}"></div>
+                            </div>
+
+                            <!-- Prix -->
+                            <div class="mb-3">
+                                <label class="form-label">Price</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">$</span>
+                                    <input type="number" step="0.01" class="form-control" th:field="*{price}" th:classappend="${#fields.hasErrors('price')} ? 'is-invalid'">
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></div>
+                                </div>
+                            </div>
+
+                            <!-- Stock -->
+                            <div class="mb-3">
+                                <label class="form-label">Stock Quantity</label>
+                                <input type="number" class="form-control" th:field="*{stockQuantity}"
+                                th:classappend="${#fields.hasErrors('stockQuantity')} ? 'is-invalid'">
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('stockQuantity')}"
+                                th:errors="*{stockQuantity}"></div>
+                            </div>
+                            <!-- Catégorie -->
+                            <div class="mb-3">
+                                <label class="form-label">Category</label>
+                                <select class="form-select" th:field="*{categoryId}"
+                                th:classappend="${#fields.hasErrors('categoryId')} ? 'is-invalid'">
+                                <option value="">Select category...</option>
+                                <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+                                </select>
+                                <div class="invalid-feedback"th:if="${#fields.hasErrors('categoryId')}"th:errors="*{categoryId}"></div>
+                            </div>
+                            <!-- Images -->
+                            <div class="mb-3">
+                                <label class="form-label">Product Images</label>
+                                <div class="dropzone" id="imageDropzone">
+                                    <input type="file" name="imageFile" th:field="*{imageFile}"
+                                    accept="image/*"
+                                    class="file-input">
+                                    <div class="dropzone-content text-center p-5">
+                                        <i class="fas fa-cloud-upload-alt fa-3x mb-3"></i>
+                                        <p>Drag and drop images here or click to select</p>
+                                        <small class="text-muted">Maximum 5 images, 5MB each</small>
+                                    </div>
+                                </div>
+                                <div id="image-previews" class="row mt-3 g-2"></div>
+                            </div>
+                            
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save me-1"></i> Save Product 
+                                </button>
+                                <a th:href="@{/products}" class="btn btn-danger"><i class="fas fa-times me-1"></i>Cancel</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+   
+   <!--  <script>
+        // Afficher les prévisualisations des images
+        document.querySelector("input[name='images']").addEventListener("change", function(event) {
+            const previewContainer = document.getElementById("image-previews");
+            previewContainer.innerHTML = ''; // Réinitialiser les prévisualisations précédentes
+            const files = event.target.files;
+            
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.classList.add('col-4');
+                    img.style.maxWidth = '100px'; // Limiter la taille des prévisualisations
+                    previewContainer.appendChild(img);
+                };
+                
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>     -->
+</body>
+</html>

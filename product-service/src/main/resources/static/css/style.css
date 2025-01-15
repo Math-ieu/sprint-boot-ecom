@@ -1,0 +1,6 @@
+.product-image {
+    width: 100%;/* Remplit l'espace disponible */
+    height: 300px; /* hauteur uniforme */
+    object-fit: cover; /* Pour ajuster le contenu sans déformation */
+    border-radius: 8px; /* Optionnel, pour arrondir les coins */
+}

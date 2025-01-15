@@ -38,9 +38,13 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
      * @return Page contenant les produits correspondants
      */
     @Query("SELECT p FROM Product p WHERE " +
-           "LOWER(p.name) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
-           "LOWER(p.description) LIKE LOWER(CONCAT('%', :keyword, '%'))")
+           "LOWER(p.name) LIKE LOWER(CONCAT('%', :keyword, '%'))")
     Page<Product> search(@Param("keyword") String keyword, Pageable pageable);
+
+   /*  @Query("SELECT p FROM Product p WHERE " +
+        "LOWER(p.name) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
+        "LOWER(p.description) LIKE LOWER(CONCAT('%', :keyword, '%'))")
+    Page<Product> search(@Param("keyword") String keyword, Pageable pageable); */
 
     /**
      * Trouver les produits ayant un stock inférieur à un seuil donné.

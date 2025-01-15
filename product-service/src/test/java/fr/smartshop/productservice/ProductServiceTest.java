@@ -8,6 +8,7 @@ package fr.smartshop.productservice;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
@@ -75,7 +76,7 @@ class ProductServiceTest {
 	}
 
 	@Test
-	void createProduct_Success() {
+	void createProduct_Success() throws IOException {
 		// Given
 
 		when(categoryRepository.findById(1L)).thenReturn(Optional.of(category));
