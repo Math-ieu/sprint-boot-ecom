@@ -1,6 +1,5 @@
 package fr.smartshop.productservice.controller;
 
-
 import fr.smartshop.productservice.dto.ProductDTO;
 import fr.smartshop.productservice.exception.ResourceNotFoundException;
 
@@ -9,17 +8,14 @@ import fr.smartshop.productservice.service.CategoryService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.List;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/products")
@@ -39,8 +35,8 @@ public class ProductController {
      */
     @GetMapping
     public String listProducts(Model model,
-                               @RequestParam(defaultValue = "0") int page,
-                               @RequestParam(defaultValue = "6") int size) {
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "6") int size) {
         log.info("Fetching product list with pagination: page {}, size {}", page, size);
 
         Page<ProductDTO> products = productService.getAllProducts(PageRequest.of(page, size));
@@ -67,8 +63,8 @@ public class ProductController {
      */
     @PostMapping
     public String createProduct(@Valid @ModelAttribute("product") ProductDTO productDTO,
-                                BindingResult result,
-                                RedirectAttributes redirectAttributes) {
+            BindingResult result,
+            RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
             log.error("Validation errors while creating a product");
             return "products/form";
@@ -76,10 +72,10 @@ public class ProductController {
 
         try {
             log.info("Creating a new product: {}", productDTO.getName());
-            log.info("id",productDTO.getId());
-            if(productDTO.getId() == null){
+            log.info("id", productDTO.getId());
+            if (productDTO.getId() == null) {
                 redirectAttributes.addFlashAttribute("success", "Product created successfully");
-            }else{
+            } else {
                 redirectAttributes.addFlashAttribute("success", "Product updated successfully");
             }
             productService.createProduct(productDTO);
@@ -106,9 +102,9 @@ public class ProductController {
     }
 
     @GetMapping("/search/{keyword}")
-    public String searchProductsByName(@RequestParam("keyword") String keyword,Model model,
-    @RequestParam(defaultValue = "0") int page,
-    @RequestParam(defaultValue = "6") int size) {
+    public String searchProductsByName(@RequestParam("keyword") String keyword, Model model,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "6") int size) {
         Page<ProductDTO> products = productService.searchProducts(keyword, PageRequest.of(page, size));
         log.info("Fetched products: {}", products);
         model.addAttribute("products", products);
@@ -121,5 +117,5 @@ public class ProductController {
         productService.deleteProduct(id);
         return "redirect:/products";
     }
-    
+
 }

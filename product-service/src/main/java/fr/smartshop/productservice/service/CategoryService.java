@@ -1,7 +1,6 @@
 package fr.smartshop.productservice.service;
 
 import fr.smartshop.productservice.dto.CategoryDTO;
-import fr.smartshop.productservice.dto.ProductDTO;
 import fr.smartshop.productservice.exception.ResourceNotFoundException;
 import fr.smartshop.productservice.model.Category;
 import fr.smartshop.productservice.repository.CategoryRepository;
