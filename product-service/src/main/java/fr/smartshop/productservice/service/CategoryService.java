@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 @Transactional
 @Slf4j
 @RequiredArgsConstructor
-public class CategoryService {
+public class CategoryService {  
 
     private final CategoryRepository categoryRepository;
     private final ModelMapper modelMapper;
@@ -38,7 +38,7 @@ public class CategoryService {
     /**
      * Update an existing category by ID
      */
-    public CategoryDTO updateCategory(Long id, CategoryDTO categoryDTO) {
+    public CategoryDTO updateCategory(Long id, CategoryDTO categoryDTO) {   
         log.info("Updating category with ID: {}", id);
         return categoryRepository.findById(id)
                 .map(category -> {
