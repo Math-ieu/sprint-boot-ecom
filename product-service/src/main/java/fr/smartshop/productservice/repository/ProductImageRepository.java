@@ -7,3 +7,4 @@ import fr.smartshop.productservice.model.ProductImage;
 public interface ProductImageRepository  extends JpaRepository<ProductImage,Long>{
     
 }
+ 

@@ -27,16 +27,15 @@ layout:decorate="~{layout/main}">
                                 <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}"th:errors="*{name}"></div>
                             </div>
 
-                            
                             <div id="image-previews" class="row mt-3 g-2"></div>
                         
                             <div class="d-grid gap-2">
                                 <button type="submit" class="btn btn-primary">
-                                    <i class="fas fa-save me-1"></i> Save Product 
+                                    <i class="fas fa-save me-1"></i> Save Category 
                                 </button>
                                 <a th:href="@{/categories}" class="btn btn-danger"><i class="fas fa-times me-1"></i>Cancel</a>
                             </div>
-                        </form>
+                        </form> 
                     </div>
                 </div>
             </div>

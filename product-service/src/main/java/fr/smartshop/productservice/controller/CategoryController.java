@@ -17,12 +17,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.validation.Valid;
-
+ 
 
 @Controller
 @RequestMapping("/categories")
 @Slf4j
-public class CategoryController { 
+public class CategoryController {  
 
     @Autowired
     private CategoryService categoryService;

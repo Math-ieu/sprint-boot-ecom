@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-
+ 
 @RestController
 @RequestMapping("/api/v1/products")
 @Tag(name = "Product", description = "Product management APIs")
@@ -25,7 +25,7 @@ public class ProductRestController {
     public ProductRestController(ProductService productService) {
         this.productService = productService;
     }
-  
+   
     /**
      * Crée un nouveau produit
      */

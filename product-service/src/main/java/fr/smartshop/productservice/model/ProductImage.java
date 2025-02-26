@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "product_images")
 @Data
-@NoArgsConstructor
+@NoArgsConstructor 
 @AllArgsConstructor
 public class ProductImage {
 
@@ -18,7 +18,7 @@ public class ProductImage {
 
     @Column(nullable = false)
     private String url;
-
+ 
    /*  @OneToOne(mappedBy = "image")
     private Product product; */
  

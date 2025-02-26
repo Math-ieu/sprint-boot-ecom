@@ -18,7 +18,7 @@ import org.springframework.data.domain.Pageable;
 @RequiredArgsConstructor
 public class CategoryRestController {
 
-    @Autowired
+    @Autowired  
     private CategoryService categoryService;
 
     @PostMapping

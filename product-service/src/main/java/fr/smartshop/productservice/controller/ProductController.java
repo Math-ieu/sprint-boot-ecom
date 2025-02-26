@@ -9,14 +9,14 @@ import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.PageRequest; 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
+ 
 @Controller
 @RequestMapping("/products")
 @Slf4j
@@ -77,7 +77,7 @@ public class ProductController {
                 redirectAttributes.addFlashAttribute("success", "Product created successfully");
             } else {
                 redirectAttributes.addFlashAttribute("success", "Product updated successfully");
-            }
+            } 
             productService.createProduct(productDTO);
             return "redirect:/products";
         } catch (Exception e) {

@@ -3,8 +3,8 @@ document.addEventListener('DOMContentLoaded', function () {
     initializeImageUpload();
     initializeFormValidation();
 
-
 });
+
 // Configuration de l'upload d'images
 function initializeImageUpload() {
     const dropzone = document.getElementById('imageDropzone');
@@ -71,7 +71,7 @@ function initializeImageUpload() {
         return validFiles;
     }
     // Prévisualisation des images
-    function previewFile(file) {
+    function previewFile(file) { 
         const reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onloadend = function () {

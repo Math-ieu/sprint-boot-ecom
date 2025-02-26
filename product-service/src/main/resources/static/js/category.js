@@ -10,7 +10,7 @@ function deleteCategory(id) {
         }).then(response => {
             if (response.ok) {
                 window.location.reload();
-            } else {
+            } else { 
                 showError('Error deleting product');
             }
         })
